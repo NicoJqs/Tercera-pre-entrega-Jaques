@@ -1,0 +1,22 @@
+{% extends "AppCoder/padre.html" %}
+
+{% load static %}
+
+{% block titulo %} Resultados de busqueda por Estudiantes{% endblock %}
+
+{% block contenido_que_cambia %}
+
+{% if estudiantes %}
+
+    <h1>Resultados de Busqueda</h1>
+    <p>Encontramos estos estudiantes que tiene el nombre que estas buscando: {{ estudiante.nombre }}</p>
+    {% for estudiante in estudiantes %}
+        <p>Datos del Alumno: {{  estudiante.nombre }} - {{ estudiante.apellido }} - {{ estudiante.email }}</p>
+        {% endfor %}
+
+{% else %}
+    <h1>No se encontraron datos del Alumno.</h1>
+
+{% endif%}
+
+{% endblock %}

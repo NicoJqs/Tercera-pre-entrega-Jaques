@@ -1,0 +1,18 @@
+{% extends "AppCoder/padre.html" %}
+
+{% load static %}
+
+{% block titulo %} Busqueda de Estudiantes {% endblock %}
+
+{% block contenido_que_cambia %}
+    <h1> Buscar Estudiantes</h1>
+
+    <form action="{% url 'buscarEstudiantes' %}" method="GET">
+        <input type="text" name="nombre" id="nombre" placeholder="Buscar">
+
+        <input type="submit" value="Search">
+
+
+    </form>
+    <h2> {{ mensaje }}</h2>
+{% endblock %}
