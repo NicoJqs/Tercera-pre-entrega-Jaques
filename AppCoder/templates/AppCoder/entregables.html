@@ -1,0 +1,19 @@
+{% extends "AppCoder/padre.html" %}
+
+{% load static %}
+
+{% block titulo %} ENTREGABLES {% endblock %}
+
+{% block contenido_que_cambia %}
+    <h1>Formulario - Entregables</h1>
+    
+    <form action="{% url 'entregables' %}" method="GET"> {% csrf_token %}
+
+        {{ formulario.as_p }}
+
+        <input type="submit" value="Guardar">
+
+    </form>
+
+    <h3>{{ mensaje }}</h3>
+{% endblock %}
