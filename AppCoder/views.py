@@ -6,6 +6,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
 def crear_curso(request):
@@ -19,6 +21,7 @@ def crear_curso(request):
     return HttpResponse(respuesta)
 
 
+@login_required
 def listar_cursos(request):
     cursos = Curso.objects.all()
     respuesta = ""
@@ -30,7 +33,7 @@ def listar_cursos(request):
 def inicio(request):
     return render(request, "AppCoder/inicio.html")
 
-
+@login_required
 def profesores(request):
     if request.method=="POST":
         form = ProfesorForm(request.POST)
@@ -54,7 +57,7 @@ def profesores(request):
 
     return render(request,"AppCoder/profesores.html", {"formulario":formulario_profesor, "profesores": profesores})
 
-
+@login_required
 def eliminarProfesor(request, id):
     profesor = Profesor.objects.get(id = id)
     profesor.delete()
@@ -63,7 +66,7 @@ def eliminarProfesor(request, id):
     mensaje = "Profesor eliminado."
     return render(request,"AppCoder/profesores.html", {"mensaje":mensaje,"formulario":formulario_profesor, "profesores": profesores})
 
-
+@login_required
 def editarProfesor(request,id):
     profesor = Profesor.objects.get(id = id)
     if request.method=="POST":
@@ -85,28 +88,29 @@ def editarProfesor(request,id):
         return render(request,"AppCoder/editarProfesor.html", {"formulario":formulario_profesor, "profesor": profesor})
 
 
-class EstudianteList(ListView):
+class EstudianteList(LoginRequiredMixin, ListView):
     model = Estudiante
     template_name = "AppCoder/estudiantes.html"
 
-class EstudianteCreacion(CreateView):
+class EstudianteCreacion(LoginRequiredMixin, CreateView):
     model = Estudiante
     success_url = reverse_lazy("estudiante_list")
     fields = ['nombre', 'apellido', 'email']
 
-class EstudianteDetalle(DetailView):
+class EstudianteDetalle(LoginRequiredMixin, DetailView):
     model = Estudiante
     template_name = "AppCoder/estudiante_detalle.html"
 
-class EstudianteDelete(DeleteView):
+class EstudianteDelete(LoginRequiredMixin, DeleteView):
     model = Estudiante
     success_url = reverse_lazy("estudiante_list")
     
-class EstudianteUpdate(UpdateView):
+class EstudianteUpdate(LoginRequiredMixin, UpdateView):
     model = Estudiante
     success_url = reverse_lazy("estudiante_list")
     fields = ['nombre', 'apellido', 'email']
 
+@login_required
 def estudiantes(request):
     if request.method=="GET":
         form = EstudiantesForm(request.GET)
@@ -145,6 +149,7 @@ def entregables(request):
             formulario_entregable = EntregablesForm()
         return render(request, "AppCoder/entregables.html", {"formulario": formulario_entregable})
 
+@login_required
 def cursos(request):
     if request.method=="POST":
         form = CursoForm(request.POST)
