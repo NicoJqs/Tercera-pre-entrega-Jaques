@@ -1,0 +1,14 @@
+{% extends "AppCoder/padre.html" %}
+
+{% load static %}
+
+{% block titulo %} Datos de {{estudiante.nombre}} {{estudiante.apellido}} {% endblock %}
+
+{% block contenido_que_cambia %}
+<h1>Formulario - Estudiantes</h1>
+
+<p>NOMBRE: <i>{{estudiante.nombre}}</i></p>
+<p>APELLIDO: <i>{{estudiante.apellido}}</i></p>
+<p>EMAIL: <i>{{estudiante.email}}</i></p>
+
+{% endblock %}
